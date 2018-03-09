@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1520401497 source:c:\users\wu wenxuan\ntu onedrive\onedrive - nanyang technological university\programming\c\lab test 1\ciphertext\main.c
+	<stdio.h>
+	<string.h>
+	<ctype.h>
+
