@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1521252532 source:d:\programming\c\cz1007\tutorial\week 5 character strings\q3\findtarget\main.c
+	<stdio.h>
+	<string.h>
+
