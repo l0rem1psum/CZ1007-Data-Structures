@@ -41,6 +41,12 @@ int main()
     tmp = insertNode(&head, pos, val);
     printList(head);
 
+    printf("Please enter the index number of the value you want to delete: ");
+    scanf("%d", &pos);
+    tmp = removeNode(&head, pos);
+    printf("List with node removed: ");
+    printList(head);
+
     return 0;
 }
 
@@ -84,6 +90,24 @@ int insertNode(listNode ** ptrHead, int index, int value){
         cur -> i = value;
         cur -> next = pre -> next;
         pre -> next = cur;
+        return 0;
+    }
+    return -1;
+}
+
+int removeNode(listNode ** ptrHead, int index){
+    listNode * pre, * cur;
+    if (*ptrHead == NULL) {return -1;}
+    else if (index == 0) {
+        cur = *ptrHead;
+        *ptrHead = (*ptrHead) -> next;
+        free(cur);
+        return 0;
+    }
+    else if ((pre = findNode(*ptrHead, index - 1))){
+        cur = pre -> next;
+        pre -> next = pre -> next -> next;
+        free(cur);
         return 0;
     }
     return -1;
