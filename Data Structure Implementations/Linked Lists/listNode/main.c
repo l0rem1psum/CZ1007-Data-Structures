@@ -8,6 +8,7 @@ void printList(listNode * head);
 listNode * findNode(listNode * head, int i);
 int insertNode(listNode ** ptrHead, int index, int value);
 int removeNode(listNode ** ptrHead, int index);
+int sizeList(listNode * head);
 
 int main()
 {
@@ -33,6 +34,7 @@ int main()
 
     printf("Current list: ");
     printList(head);
+    printf("The size of the current linked list is %d\n", sizeList(head));
 
 
     printf("Please enter where do you want to insert the value: ");
@@ -42,12 +44,14 @@ int main()
     printf("Inserted list: ");
     tmp = insertNode(&head, pos, val);
     printList(head);
+    printf("The size of the current linked list is %d\n", sizeList(head));
 
     printf("Please enter the index number of the value you want to delete: ");
     scanf("%d", &pos);
     tmp = removeNode(&head, pos);
     printf("List with node removed: ");
     printList(head);
+    printf("The size of the current linked list is %d\n", sizeList(head));
 
     return 0;
 }
@@ -113,4 +117,14 @@ int removeNode(listNode ** ptrHead, int index){
         return 0;
     }
     return -1;
+}
+
+int sizeList(listNode * head){
+    int size = 0;
+    listNode * cur = head;
+    while (cur) {
+        size++;
+        cur = cur -> next;
+    }
+    return size;
 }
