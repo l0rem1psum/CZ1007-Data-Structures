@@ -6,6 +6,8 @@ typedef struct node {
 } listNode;
 void printList(listNode * head);
 listNode * findNode(listNode * head, int i);
+int insertNode(listNode ** ptrHead, int index, int value);
+int removeNode(listNode ** ptrHead, int index);
 
 int main()
 {
