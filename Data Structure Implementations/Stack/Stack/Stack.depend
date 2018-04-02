@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1522679992 source:d:\programming\c\cz1007\data structure implementations\stack\stack\main.c
+	<stdio.h>
+	<stdlib.h>
+

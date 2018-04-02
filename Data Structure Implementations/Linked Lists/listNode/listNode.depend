@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1521774845 source:d:\programming\c\cz1007\data structure implementations\linked lists\listnode\main.c
+	<stdio.h>
+	<stdlib.h>
+
