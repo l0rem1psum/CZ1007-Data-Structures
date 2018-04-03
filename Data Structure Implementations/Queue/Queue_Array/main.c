@@ -49,6 +49,21 @@ int main()
     printf("Dequeue:%d\n", dequeue(&q));
     printf("Current size of the queue is %d\n", q.size);
     printList(&q);
+    /*Queue q;
+    q.size = 0;
+    q.front = 0;
+    q.rear = 0;
+    enqueue(&q, 1);
+    enqueue(&q, 2);
+    dequeue(&q);
+    printf("Current size of the queue is %d\n", q.size);
+    printList(&q);
+    dequeue(&q);
+    printf("Current size of the queue is %d\n", q.size);
+    printList(&q);
+    enqueue(&q, 1);
+    printList(&q);*/
+
 }
 
 int isEmptyQueue(Queue *q){
@@ -72,10 +87,8 @@ void enqueue(Queue *q, int item){
             q -> num[q -> rear] = item;
             (q -> size)++;
         } else {
-            q -> num[0] = item;
+            q -> num[q -> front] = item;
             (q -> size)++;
-            (q -> front)++;
-            (q -> rear)++;
         }
     }
     return;
@@ -86,7 +99,8 @@ int dequeue(Queue *q){
         int temp;
         temp = q -> num[q -> front];
         (q -> size)--;
-        q -> front = (q -> front + 1) % MAX;
+        if (q -> size > 0)//THIS LINE IS FUCKING IMPORTANT
+            q -> front = (q -> front + 1) % MAX;
         return temp;
     } else {return NULL_VALUE;}
 }
@@ -106,5 +120,6 @@ void printList(Queue *q){
                 printf("%d ", q -> num[i]);
             }
         }
-    } else {printf("Empty");}
+    } else {printf("Empty\n");}
+    printf("\n");
 }
