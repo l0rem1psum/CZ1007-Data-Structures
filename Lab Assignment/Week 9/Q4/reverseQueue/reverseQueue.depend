@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1522849970 source:c:\users\wu wenxuan\ntu onedrive\onedrive - nanyang technological university\programming\c\lab assignment\week 9\q4\reversequeue\main.c
+	<stdio.h>
+	<stdlib.h>
+	<limits.h>
+
