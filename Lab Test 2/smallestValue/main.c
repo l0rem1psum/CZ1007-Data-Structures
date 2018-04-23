@@ -1,7 +1,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 /* CE1007/CZ1007 Data Structures
-Purpose: Implementing the required functions for Question 1 */
+Lab Test: Section E - Binary Trees Questions
+Purpose: Implementing the required functions for Question 7 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -9,33 +10,38 @@ Purpose: Implementing the required functions for Question 1 */
 #include <stdlib.h>
 
 //////////////////////////////////////////////////////////////////////////////////
-typedef struct _btnode{
-	int item;
-	struct _btnode *left;
-	struct _btnode *right;
+
+typedef struct _btnode
+{
+    int item;
+    struct _btnode *left;
+    struct _btnode *right;
 } BTNode;   // You should not change the definition of BTNode
 
 /////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _stackNode{
+typedef struct _stackNode
+{
     BTNode *btnode;
     struct _stackNode *next;
-}StackNode;
+} StackNode;
 
-typedef struct _stack{
+typedef struct _stack
+{
     StackNode *top;
-}Stack;
+} Stack;
 
-///////////////////////// function prototypes ////////////////////////////////////
+
+///////////////////////// Function prototypes ////////////////////////////////////
 
 // You should not change the prototypes of these functions
-int identical(BTNode *tree1, BTNode *tree2);
+int smallestValue(BTNode *node);
 
-BTNode* createBTNode(int item);
+BTNode *createBTNode(int item);
 
-BTNode* createTree();
-void push( Stack *stk, BTNode *node);
-BTNode* pop(Stack *stk);
+BTNode *createTree();
+void push( Stack *stack, BTNode *node);
+BTNode* pop(Stack *stack);
 
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
@@ -44,63 +50,45 @@ void removeAll(BTNode **node);
 
 int main()
 {
-    int c, s;
     char e;
-    BTNode *root1, *root2;
+    int c, value;
+    BTNode *root;
 
-    root1 = NULL;
-    root2 = NULL;
     c = 1;
+    root = NULL;
 
-    printf("1: Create a binary tree1.\n");
-    printf("2: Create a binary tree2.\n");
-    printf("3: Check whether two trees are structurally identical.\n");
+    printf("1: Create a binary tree.\n");
+    printf("2: Smallest value;\n");
     printf("0: Quit;\n");
 
-    while(c != 0){
-        printf("Please input your choice(1/2/3/0): ");
-        if(scanf("%d", &c) > 0)
 
+    while(c != 0)
+    {
+        printf("Please input your choice(1/2/0): ");
+        if( scanf("%d",&c) > 0)
         {
-
             switch(c)
             {
             case 1:
-                removeAll(&root1);
-                printf("Creating tree1:\n");
-                root1 = createTree();
-                printf("The resulting tree1 is: ");
-                printTree(root1);
+                removeAll(&root);
+                root = createTree();
+                printf("The resulting binary tree is: ");
+                printTree(root);
                 printf("\n");
                 break;
             case 2:
-                removeAll(&root2);
-                printf("Creating tree2:\n");
-                root2 = createTree();
-                printf("The resulting tree2 is: ");
-                printTree(root2);
-                printf("\n");
-                break;
-            case 3:
-                s = identical(root1, root2);
-                if(s){
-                printf("Both trees are structurally identical.\n");
-                }
-                else{
-                printf("Both trees are different.\n");
-                }
-                removeAll(&root1);
-                removeAll(&root2);
+                value = smallestValue(root);
+                printf("Smallest value of the binary tree is: %d\n",value);
+                removeAll(&root);
                 break;
             case 0:
-                removeAll(&root1);
-                removeAll(&root2);
+                removeAll(&root);
                 break;
             default:
                 printf("Choice unknown;\n");
                 break;
             }
-		}
+        }
         else
         {
             scanf("%c",&e);
@@ -112,22 +100,23 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-int identical(BTNode *tree1, BTNode *tree2){
-    if (!tree1 && !tree2){return 1;}
-    if ((!tree1 && tree2) || (tree1 && !tree2)){return 0;}
-    if (tree1 -> item == tree2 -> item){
-        //if (!tree1){return 1;}
-        if (identical(tree1 -> left, tree2 -> left)){
-            if (identical(tree1 -> right, tree2 -> right)){return 1;}
-            else {return 0;}
-        } else {return 0;}
-    } else {return 0;}
+int smallestValue(BTNode *node){
+    if (!node) {return -1;}
+    int l, r;
+    if (!(node -> left) && !(node -> right)){return node -> item;}
+    else {
+        l = smallestValue(node -> left);
+        r = smallestValue(node -> right);
+        if ((l < node -> item) && (l < r)) {return l;}
+        else if ((r < node -> item) && (r < l)) {return r;}
+        else {return node -> item;}
+    }
 }
 
+//////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////
-
-BTNode *createBTNode(int item){
+BTNode *createBTNode(int item)
+{
     BTNode *newNode = malloc(sizeof(BTNode));
     newNode->item = item;
     newNode->left = NULL;
@@ -138,28 +127,28 @@ BTNode *createBTNode(int item){
 //////////////////////////////////////////////////////////////////////////////////
 
 
-BTNode *createTree(){
-    Stack stk;
+BTNode *createTree()
+{
+    Stack stack;
     BTNode *root, *temp;
     char s;
     int item;
 
-    stk.top = NULL;
+    stack.top = NULL;
     root = NULL;
-
     printf("Input an integer that you want to add to the binary tree. Any Alpha value will be treated as NULL.\n");
     printf("Enter an integer value for the root: ");
     if(scanf("%d",&item) > 0)
     {
         root = createBTNode(item);
-        push(&stk,root);
+        push(&stack,root);
     }
     else
     {
         scanf("%c",&s);
     }
 
-    while((temp =pop(&stk)) != NULL)
+    while((temp =pop(&stack)) != NULL)
     {
 
         printf("Enter an integer value for the Left child of %d: ", temp->item);
@@ -184,48 +173,54 @@ BTNode *createTree(){
         }
 
         if(temp->right != NULL)
-            push(&stk,temp->right);
+            push(&stack,temp->right);
         if(temp->left != NULL)
-            push(&stk,temp->left);
+            push(&stack,temp->left);
     }
     return root;
 }
 
-void push( Stack *stk, BTNode *node){
+void push( Stack *stack, BTNode *node)
+{
     StackNode *temp;
 
     temp = malloc(sizeof(StackNode));
     if(temp == NULL)
         return;
     temp->btnode = node;
-    if(stk->top == NULL){
-        stk->top = temp;
+    if(stack->top == NULL)
+    {
+        stack->top = temp;
         temp->next = NULL;
     }
-    else{
-        temp->next = stk->top;
-        stk->top = temp;
+    else
+    {
+        temp->next = stack->top;
+        stack->top = temp;
     }
 }
 
-BTNode* pop(Stack *stk){
-   StackNode *temp, *top;
-   BTNode *ptr;
-   ptr = NULL;
+BTNode* pop(Stack *stack)
+{
+    StackNode *temp, *top;
+    BTNode *ptr;
+    ptr = NULL;
 
-   top = stk->top;
-   if(top != NULL){
+    top = stack->top;
+    if(top != NULL)
+    {
         temp = top->next;
         ptr = top->btnode;
 
-        stk->top = temp;
+        stack->top = temp;
         free(top);
         top = NULL;
-   }
-   return ptr;
+    }
+    return ptr;
 }
 
-void printTree(BTNode *node){
+void printTree(BTNode *node)
+{
     if(node == NULL) return;
 
     printTree(node->left);
@@ -233,8 +228,10 @@ void printTree(BTNode *node){
     printTree(node->right);
 }
 
-void removeAll(BTNode **node){
-    if(*node != NULL){
+void removeAll(BTNode **node)
+{
+    if(*node != NULL)
+    {
         removeAll(&((*node)->left));
         removeAll(&((*node)->right));
         free(*node);
